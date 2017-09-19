@@ -1,0 +1,60 @@
+<configuration scan="true" scanPeriod="30 seconds" packagingData="true">
+
+    <property file="variables.properties" />
+    <!--<property name="USER_HOME" value="/home/rana" />-->
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<file>$USER_HOME/myApp.log</file>-->
+        <file>${destination}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${destination}</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>-->
+
+    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>myApp.log</file>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date %level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--<logger name="chapters.configuration" level="INFO" />
+    <logger name="chapters.configuration.Foo" level="DEBUG" />-->
+
+    <logger name="examples.rana">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <!--<logger name="examples.rana" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>-->
+
+    <root level="DEBUG">
+        <appender-ref ref="ROLLING" />
+        <!--<appender-ref ref="FILE" />-->
+        <!--<appender-ref ref="STDOUT" />-->
+    </root>
+</configuration>
